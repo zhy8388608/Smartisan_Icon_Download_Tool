@@ -1,3 +1,4 @@
+#pip install requests
 import requests
 import json
 from requests.sessions import Session
