@@ -12,10 +12,8 @@ THIRD_PARTY_SYS_APPS = ['com.android.alarmclock','com.android.deskclock','com.an
 
 folder_name = 'out'
 
-apps = 'apps_category.json'
-fp = open(apps, 'r')
-fp_result = fp.readlines()
-fp_result = json.loads(fp_result[0])
+fp = open('app.txt', 'r')
+fp_result = fp.read().split('\n')
 
 thread_local = local()
 
@@ -40,6 +38,11 @@ def download_it(bundle_id):
 	return result.status_code
 
 def do_it(bundle_id):
+	if bundle_id == '':
+		return
+	if os.path.exists(folder_name + '/' + bundle_id + '.png'):
+		print('%s : Already exists' % (bundle_id))
+		return
 	code = check_if_exisit(bundle_id)
 	if code == 200:
 		download_it(bundle_id)
