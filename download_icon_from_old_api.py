@@ -6,7 +6,7 @@ from threading import Thread,local
 
 MANUFACTURERS=['sony','htc','meizu','xiaomi','samsung','motorola','lge','letv','oppo','huawei','bbk']
 
-THIRD_PART_SYS_APPS=['com.android.alarmclock','com.android.deskclock','com.android.mms','com.android.providers.downloads.ui','com.android.email','com.android.settings','com.android.calendar','com.android.soundrecorder','com.android.browser','com.android.contacts','com.android.dialer','com.android.calculator2','com.android.soundrecorder','com.android.camera','com.android.thememanager']
+THIRD_PARTY_SYS_APPS=['com.android.alarmclock','com.android.deskclock','com.android.mms','com.android.providers.downloads.ui','com.android.email','com.android.settings','com.android.calendar','com.android.soundrecorder','com.android.browser','com.android.contacts','com.android.dialer','com.android.calculator2','com.android.soundrecorder','com.android.camera','com.android.thememanager']
 
 apps = 'apps_category.json'
 fp = open(apps, 'r')
@@ -48,7 +48,7 @@ def download_list(bundle_ids:list) -> None:
 def download_system():
     bundle_ids=[]
     for manufacturer in MANUFACTURERS:
-        for app in THIRD_PART_SYS_APPS:
+        for app in THIRD_PARTY_SYS_APPS:
             bundle_ids.append(manufacturer + '_' + app)
     download_list(bundle_ids)
 
