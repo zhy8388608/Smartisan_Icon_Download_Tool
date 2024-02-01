@@ -52,6 +52,6 @@ def download_system():
             bundle_ids.append(manufacturer + '_' + app)
     download_list(bundle_ids)
 
-print(str(len(fp_result)) + ' third part icons in total:')
+print(str(len(fp_result)) + ' third party icons in total:')
 download_system()
 download_list(fp_result)
