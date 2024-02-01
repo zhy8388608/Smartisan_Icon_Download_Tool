@@ -7,13 +7,10 @@ from requests.sessions import Session
 from concurrent.futures import ThreadPoolExecutor
 from threading import Thread,local
 
-BASIC_APPS=['com.android.email', 'com.android.vending', 'com.youku.phone', 'com.tencent.mm', 'com.immomo.momo', 'com.youdao.dict', 'com.xueqiu.android', 'com.sina.weibo', 'com.sand.airdroid', 'com.autonavi.minimap', 'cn.dxy.android.aspirin', 'com.alensw.PicFolder', 'cn.wps.moffice_eng', 'com.estrongs.android.pop', 'com.airbnb.android', 'com.buildcoo.beike', 'com.taobao.taobao', 'com.eg.android.AlipayGphone', 'com.jingdong.app.mall', 'com.sdu.didi.psnger', 'com.tencent.mobileqq', 'com.qiyi.video', 'com.ubercab', 'com.tencent.qqmusic', 'com.dianping.v1', 'com.sankuai.meituan', 'com.evernote', 'com.tencent.androidqqmail', 'com.qzone', 'com.netease.vopen', 'com.pplive.androidphone', 'com.smzdm.client.android', 'com.suning.mobile.ebuy', 'com.renren.mobile.android', 'com.netease.mail', 'com.linkedin.android', 'com.linkedin.chitu', 'com.taou.maimai', 'com.wiiun.maixin', 'mail139.launcher', 'cn.cj.pe', 'com.netease.mobimail', 'com.netease.qiyemail', 'com.sina.mail', 'net.daum.android.solmail', 'com.tencent.qqlite', 'com.tencent.mobileqqi', 'com.android.emailyh', 'com.corp21cn.mail189', 'com.sina.free.sm.pro', 'com.qiduo.mail', 'com.kingsoft.email', 'com.huawei.dsm.mail', 'com.yahoolitemail', 'com.google.android.gm', 'com.tencent.qqcalendar', 'com.tencent.pb', 'im.yixin', 'com.alibaba.mobileim', 'com.box.basic', 'com.douban.frodo', 'com.itcalf.renhe', 'com.alibaba.android.babylon', 'com.yy.a.liveworld', 'com.corp21cn.cloudcontacts', 'com.pinterest', 'com.nice.main', 'com.google.android.talk', 'com.xinge.xinge', 'com.duowan.mobile', 'jp.naver.line.android', 'com.p1.mobile.putong', 'com.douban.shuo', 'com.tencent.WBlog', 'com.xiaomi.channel', 'com.blueorbit.Muzzik', 'com.asiainfo.android', 'com.etalk', 'com.teambition.teambition', 'com.teambition.enterprise.android', 'cn.com.fetion', 'com.aol.mobile.aim', 'com.baidu.tieba', 'com.facebook.orca', 'com.google.android.apps.blogger', 'com.google.android.apps.plus', 'com.hootsuite.droid.full', 'com.instagram.android', 'com.joelapenna.foursquared', 'com.myspace.android', 'com.path', 'com.pica.msn', 'com.skype.rover', 'com.tumblr', 'com.twitter.android', 'com.viber.voip', 'com.weico.sinaweibo', 'com.whatsapp', 'com.yahoo.mobile.client.android.im', 'com.zhihu.android', 'co.vine.android', 'me.imid.fuubo', 'me.papa', 'com.lbt.gms', 'com.alibaba.android.rimet', 'com.alibaba.android.rimet.fx', 'com.wemomo.bibi', 'com.tencent.weread']
-
 folder_name = 'out'
 
-fp = open('apps_category.json', 'r')
-fp_result = fp.readlines()
-fp_result = json.loads(fp_result[0])
+fp = open('app.txt', 'r')
+fp_result = fp.read().split('\n')
 
 thread_local = local()
 
@@ -58,11 +55,16 @@ def getIconUrl(packageName):
 def download_it(name, url):
 	session = get_session()
 	result = session.get(url)
-	with open(name,'wb')as f:
+	with open(name,'wb') as f:
 		f.write(result.content)
 	return result.status_code
 
 def do_it(bundle_id):
+	if bundle_id == '':
+		return
+	if os.path.exists(folder_name + '/' + bundle_id + '.png'):
+		print('%s : Already exists' % (bundle_id))
+		return
 	url = getIconUrl(bundle_id)
 	if url is not None:
 		download_it(folder_name + '/' + bundle_id + '.png', url)
@@ -77,5 +79,5 @@ def download_list(bundle_ids:list) -> None:
 print(str(len(fp_result)) + ' third party icons in total:')
 if not os.path.exists(folder_name):
 	os.mkdir(folder_name)
-download_list(BASIC_APPS)
 download_list(fp_result)
+print('\nDone')
