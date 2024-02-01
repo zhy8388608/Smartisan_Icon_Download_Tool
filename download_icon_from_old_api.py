@@ -10,7 +10,7 @@ MANUFACTURERS = ['sony','htc','meizu','xiaomi','samsung','motorola','lge','letv'
 
 THIRD_PARTY_SYS_APPS = ['com.android.alarmclock','com.android.deskclock','com.android.mms','com.android.providers.downloads.ui','com.android.email','com.android.settings','com.android.calendar','com.android.soundrecorder','com.android.browser','com.android.contacts','com.android.dialer','com.android.calculator2','com.android.soundrecorder','com.android.camera','com.android.thememanager']
 
-folder_name = 'out'
+folder_name = 'out_old'
 
 fp = open('app.txt', 'r')
 fp_result = fp.read().split('\n')
