@@ -1,4 +1,5 @@
 #pip install requests
+
 import os
 import requests
 import json
@@ -8,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Thread,local
 
 folder_name = 'out'
+os.makedirs(folder_name, exist_ok=True)
 
 fp = open('app.txt', 'r')
 fp_result = fp.read().split('\n')
@@ -31,16 +33,16 @@ def getIconUrl(packageName):
 		else:
 			jSONObject = None
 		if jSONObject is not None:
-			jSONObject3 = jSONObject.get('body')
-			if jSONObject3 is not None:
-				obj = jSONObject3.get('app_icon')
+			jSONObject = jSONObject.get('body')
+			if jSONObject is not None:
+				obj = jSONObject.get('app_icon')
 				if obj is not None and isinstance(obj, dict):
-					jSONObject4 = obj
-					for next in jSONObject4.keys():
-						jSONArray2 = jSONObject4.get(next)
-						if jSONArray2 is not None:
-							for i in range(len(jSONArray2)):
-								string = jSONArray2[i].get('logo')
+					jSONObject = obj
+					for next in jSONObject.keys():
+						jSONArray = jSONObject.get(next)
+						if jSONArray is not None:
+							for i in range(len(jSONArray)):
+								string = jSONArray[i].get('logo')
 								if string is not None:
 									return string
 								else:
@@ -73,11 +75,9 @@ def do_it(bundle_id):
 		print('%s : Failed' % (bundle_id))
 
 def download_list(bundle_ids:list) -> None:
-	with ThreadPoolExecutor(max_workers=16) as executor:
+	with ThreadPoolExecutor(max_workers=64) as executor:
 		executor.map(do_it,bundle_ids)
 
 print(str(len(fp_result)) + ' third party icons in total:')
-if not os.path.exists(folder_name):
-	os.mkdir(folder_name)
 download_list(fp_result)
 print('\nDone')
